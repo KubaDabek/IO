@@ -16,8 +16,14 @@ public class VodServiceMain {
 
     public static void main(String[] args) {
         System.out.println("Let's find cinemas!");
+        CinemaDao cinemaDao = new MemCinemaDao();
+        MovieDao movieDao = new MemMovieDao();
+
         ApplicationContext context = new AnnotationConfigApplicationContext("vod");
+        //CinemaService service = new CinemaServiceBean(cinemaDao, movieDao);
         CinemaService service = context.getBean(CinemaService.class);
+        CinemaService service2 = context.getBean(CinemaService.class);
+
 
         List<Cinema> cinemas = service.getAllCinemas();
         System.out.println(cinemas.size() + " cinemas found:");

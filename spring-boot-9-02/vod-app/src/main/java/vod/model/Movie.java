@@ -1,5 +1,7 @@
 package vod.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,7 @@ public class Movie {
     private String poster;//url
     private Director director;//relacja do rezysera - kolejny obiekt danych w uproszczeniu założenie że jeden film ma 1 reżysera
     private float rating;//rating
+    @JsonIgnore
     private List<Cinema> cinemas = new ArrayList<>();
 //relacja wiele do wiele - bidirectional
 

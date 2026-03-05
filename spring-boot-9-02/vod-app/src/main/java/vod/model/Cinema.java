@@ -1,5 +1,7 @@
 package vod.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +11,7 @@ public class Cinema {
     private int id;
     private String name;
     private String logo; //url logo w przypadku UI będzie zaciągany dynamicznie
+    @JsonIgnore
     private List<Movie> movies = new ArrayList<>();//struktura kolekcyjna związaną z granymi filmami, uproszczone
 //relacja wiele do wiele
     public Cinema(int id, String name, String logo) {//konsturktor
