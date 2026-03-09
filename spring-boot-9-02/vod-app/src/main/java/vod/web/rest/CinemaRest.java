@@ -1,16 +1,23 @@
 package vod.web.rest;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.LocaleResolver;
 import vod.model.Cinema;
 import vod.model.Movie;
 import vod.service.CinemaService;
 import vod.service.MovieService;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +27,14 @@ public class CinemaRest {
 
     private final CinemaService cinemaService;
     private final MovieService movieService;
+    private final MessageSource messageSource;
+    private final LocaleResolver localeResolver;
+    private final CinemaValidator validator;
+
+    @InitBinder
+    void initBinder(WebDataBinder binder) {
+        binder.addValidators(validator);
+    }
 
     // GET wszystkie kina (z opcjonalnymi parametrami)
     @GetMapping("/cinemas")
@@ -69,9 +84,21 @@ public class CinemaRest {
 
     // POST — dodaj nowe kino
     @PostMapping("/cinemas")
-    ResponseEntity<Cinema> addCinema(@RequestBody Cinema cinema) {
+    ResponseEntity<?> addCinema(
+            @Validated @RequestBody Cinema cinema,
+            Errors errors,
+            HttpServletRequest request) {
+
         log.info("about to add new cinema {}", cinema);
-        // TODO validation
+
+        if (errors.hasErrors()) {
+            Locale locale = localeResolver.resolveLocale(request);
+            String errorMessage = errors.getAllErrors().stream()
+                    .map(oe -> messageSource.getMessage(oe, locale))
+                    .reduce("errors:\n", (accu, oe) -> accu + oe + "\n");
+            return ResponseEntity.badRequest().body(errorMessage);
+        }
+
         cinema = cinemaService.addCinema(cinema);
         log.info("new cinema added {}", cinema);
         return ResponseEntity.status(HttpStatus.CREATED).body(cinema);

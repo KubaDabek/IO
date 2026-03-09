@@ -19,6 +19,26 @@ POST http://localhost:8080/webapi/cinemas
 Content-Type: application/json
 
 {
-  "name": "Kino Wisła",
+  "name": "Kinoteka Bis",
   "logo": "https://www.kinoteka.pl/img/logo.png"
+}
+
+### get all movies
+GET http://localhost:8080/webapi/movies
+
+### get movie by id
+GET http://localhost:8080/webapi/movies/1
+
+### get movies played in cinema
+GET http://localhost:8080/webapi/cinemas/1/movies
+
+### create new movie
+POST http://localhost:8080/webapi/movies
+Content-Type: application/json
+
+{
+  "title": "IO",
+  "poster": "https://www.kinoteka.pl/img/logo.png",
+  "rating": 4.5,
+  "directorId": 4
 }
