@@ -5,26 +5,25 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Movie {
+public class Book {
 
     private int id;
     private String title;
     private String poster;//url
-    private Director director;//relacja do rezysera - kolejny obiekt danych w uproszczeniu założenie że jeden film ma 1 reżysera
+    private Author author;
     private float rating;//rating
     @JsonIgnore
-    private List<Cinema> cinemas = new ArrayList<>();
-//relacja wiele do wiele - bidirectional
+    private List<Bookstore> bookstores = new ArrayList<>();
 
-    public Movie(int id, String title, String poster, Director director, float rating) {
+    public Book(int id, String title, String poster, Author author, float rating) {
         this.id = id;
         this.title = title;
         this.poster = poster;
-        this.director = director;
+        this.author = author;
         this.rating = rating;
     }
 
-    public Movie() {
+    public Book() {
     }
 
     public int getId() {
@@ -51,12 +50,12 @@ public class Movie {
         this.poster = poster;
     }
 
-    public Director getDirector() {
-        return director;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setDirector(Director director) {
-        this.director = director;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     public float getRating() {
@@ -67,16 +66,16 @@ public class Movie {
         this.rating = rating;
     }
 
-    public List<Cinema> getCinemas() {
-        return cinemas;
+    public List<Bookstore> getBookstores() {
+        return bookstores;
     }
 
-    public void setCinemas(List<Cinema> cinemas) {
-        this.cinemas = cinemas;
+    public void setBookstores(List<Bookstore> bookstores) {
+        this.bookstores = bookstores;
     }
 
-    public void addCinema(Cinema c) {
-        this.cinemas.add(c);
+    public void addBookstore(Bookstore c) {
+        this.bookstores.add(c);
     }
 
 
@@ -85,7 +84,7 @@ public class Movie {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Movie movie = (Movie) o;
+        Book movie = (Book) o;
 
         if (id != movie.id) return false;
         if (Float.compare(movie.rating, rating) != 0) return false;
@@ -104,9 +103,9 @@ public class Movie {
 
     @Override
     public String toString() {
-        return "Movie{" +
+        return "Book{" +
                 "title='" + title + '\'' +
-                ", director=" + director +
+                ", author=" + author +
                 ", rating=" + rating +
                 '}';
     }

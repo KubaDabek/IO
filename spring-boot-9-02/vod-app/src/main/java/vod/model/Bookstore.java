@@ -6,27 +6,25 @@ import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-public class Cinema {
+public class Bookstore {
 
     private int id;
     @NotNull
     @Size(min=2, max=20)
     private String name;
-    private String logo; //url logo w przypadku UI będzie zaciągany dynamicznie
+    private String logo;
     @JsonIgnore
-    private List<Movie> movies = new ArrayList<>();//struktura kolekcyjna związaną z granymi filmami, uproszczone
-//relacja wiele do wiele
-    public Cinema(int id, String name, String logo) {//konsturktor
+    private List<Book> books = new ArrayList<>();
+    public Bookstore(int id, String name, String logo) {
         this.id = id;
         this.name = name;
         this.logo = logo;
     }
 
-    public Cinema() {//bezparametrowy
+    public Bookstore() {
     }
-//settery, gettery i to String - później będziemy korzystać z wynalazku Lombok
+
     public int getId() {
         return id;
     }
@@ -51,21 +49,21 @@ public class Cinema {
         this.logo = logo;
     }
 
-    public List<Movie> getMovies() {
-        return movies;
+    public List<Book> getBooks() {
+        return books;
     }
 
-    public void setMovies(List<Movie> movies) {
-        this.movies = movies;
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
-    public void addMovie(Movie m) {
-        this.movies.add(m);
+    public void addBook(Book m) {
+        this.books.add(m);
     }
 
     @Override
     public String toString() {
-        return "Cinema{" +
+        return "Bookstore{" +
                 "name='" + name + '\'' +
                 ", logo='" + logo + '\'' +
                 '}';

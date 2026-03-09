@@ -3,9 +3,9 @@ package vod.web.rest.dto;
 import lombok.Data;
 
 @Data
-public class MovieDTO {
+public class BookDTO {
     private String title;
     private String poster;
-    private int directorId;
+    private int authorId;
     private float rating;
 }

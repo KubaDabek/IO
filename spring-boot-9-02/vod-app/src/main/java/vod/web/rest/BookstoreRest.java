@@ -11,10 +11,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.LocaleResolver;
-import vod.model.Cinema;
-import vod.model.Movie;
-import vod.service.CinemaService;
-import vod.service.MovieService;
+import vod.model.Book;
+import vod.model.Bookstore;
+import vod.service.BookstoreService;
+import vod.service.BookService;
 
 import java.util.List;
 import java.util.Locale;
@@ -23,73 +23,69 @@ import java.util.Locale;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/webapi")
-public class CinemaRest {
+public class BookstoreRest {
 
-    private final CinemaService cinemaService;
-    private final MovieService movieService;
+    private final BookstoreService bookstoreService;
+    private final BookService bookService;
     private final MessageSource messageSource;
     private final LocaleResolver localeResolver;
-    private final CinemaValidator validator;
+    private final BookstoreValidator validator;
 
     @InitBinder
     void initBinder(WebDataBinder binder) {
         binder.addValidators(validator);
     }
 
-    // GET wszystkie kina (z opcjonalnymi parametrami)
-    @GetMapping("/cinemas")
-    List<Cinema> getCinemas(
+    @GetMapping("/bookstores")
+    List<Bookstore> getBookstores(
             @RequestParam(value = "phrase", required = false) String phrase,
             @RequestHeader(value = "custom-header", required = false) String customHeader,
             @CookieValue(value = "some-cookie", required = false) String someCookie) {
 
-        log.info("about to retrieve cinemas list");
+        log.info("about to retrieve bookstores list");
         log.info("phrase param: {}", phrase);
         log.info("custom header param: {}", customHeader);
         log.info("some cookie value: {}", someCookie);
-        List<Cinema> cinemas = cinemaService.getAllCinemas();
-        log.info("{} cinemas found", cinemas.size());
-        return cinemas;
+        List<Bookstore> bookstores = bookstoreService.getAllBookstores();
+        log.info("{} bookstores found", bookstores.size());
+        return bookstores;
     }
 
-    // GET kino po ID
-    @GetMapping("/cinemas/{id}")
-    ResponseEntity<Cinema> getCinema(@PathVariable("id") int id) {
-        log.info("about to retrieve cinema {}", id);
-        Cinema cinema = cinemaService.getCinemaById(id);
-        log.info("cinema found: {}", cinema);
-        if (cinema != null) {
-            return ResponseEntity.status(200).body(cinema);
+    @GetMapping("/bookstores/{id}")
+    ResponseEntity<Bookstore> getBookstore(@PathVariable("id") int id) {
+        log.info("about to retrieve bookstore {}", id);
+        Bookstore bookstore = bookstoreService.getBookstoreById(id);
+        log.info("bookstore found: {}", bookstore);
+        if (bookstore != null) {
+            return ResponseEntity.status(200).body(bookstore);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
-    // GET kina grające dany film
-    @GetMapping("/movies/{movieId}/cinemas")
-    ResponseEntity<List<Cinema>> getCinemasPlayingMovie(
-            @PathVariable("movieId") int movieId) {
+    @GetMapping("/books/{bookId}/bookstores")
+    ResponseEntity<List<Bookstore>> getCinemasPlayingMovie(
+            @PathVariable("bookId") int bookId) {
 
-        log.info("about to retrieve cinemas playing movie {}", movieId);
-        Movie movie = movieService.getMovieById(movieId);
-        if (movie == null) {
+        log.info("about to retrieve bookstores placed book {}", bookId);
+        Book book = bookService.getBookById(bookId);
+        if (book == null) {
             return ResponseEntity.notFound().build();
         } else {
-            List<Cinema> cinemas = cinemaService.getCinemasByMovie(movie);
-            log.info("there's {} cinemas playing movie {}",
-                    cinemas.size(), movie.getTitle());
-            return ResponseEntity.ok(cinemas);
+            List<Bookstore> bookstores = bookstoreService.getBookstoresByBook(book);
+            log.info("there's {} bookstores placing book {}",
+                    bookstores.size(), book.getTitle());
+            return ResponseEntity.ok(bookstores);
         }
     }
 
-    // POST — dodaj nowe kino
-    @PostMapping("/cinemas")
-    ResponseEntity<?> addCinema(
-            @Validated @RequestBody Cinema cinema,
+    @PostMapping("/bookstores")
+    ResponseEntity<?> addBookstore(
+            @Validated @RequestBody Bookstore bookstore,
             Errors errors,
             HttpServletRequest request) {
 
-        log.info("about to add new cinema {}", cinema);
+        log.info("about to add new bookstore {}", bookstore);
 
         if (errors.hasErrors()) {
             Locale locale = localeResolver.resolveLocale(request);
@@ -99,8 +95,8 @@ public class CinemaRest {
             return ResponseEntity.badRequest().body(errorMessage);
         }
 
-        cinema = cinemaService.addCinema(cinema);
-        log.info("new cinema added {}", cinema);
-        return ResponseEntity.status(HttpStatus.CREATED).body(cinema);
+        bookstore = bookstoreService.addBookstore(bookstore);
+        log.info("new bookstore added {}", bookstore);
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookstore);
     }
 }

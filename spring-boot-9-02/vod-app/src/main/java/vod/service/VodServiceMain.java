@@ -2,32 +2,30 @@ package vod.service;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import vod.repository.CinemaDao;
-import vod.repository.MovieDao;
-import vod.repository.mem.MemCinemaDao;
-import vod.repository.mem.MemMovieDao;
-import vod.model.Cinema;
-import vod.service.impl.CinemaServiceBean;
+import vod.repository.BookDao;
+import vod.repository.BookstoreDao;
+import vod.repository.mem.MemBookstoreDao;
+import vod.repository.mem.MemBookDao;
+import vod.model.Bookstore;
 
 import java.util.List;
-import java.util.Set;
 
 public class VodServiceMain {
 
     public static void main(String[] args) {
-        System.out.println("Let's find cinemas!");
-        CinemaDao cinemaDao = new MemCinemaDao();
-        MovieDao movieDao = new MemMovieDao();
+        System.out.println("Let's find bookstores!");
+        BookstoreDao bookstoreDao = new MemBookstoreDao();
+        BookDao bookDao = new MemBookDao();
 
         ApplicationContext context = new AnnotationConfigApplicationContext("vod");
-        //CinemaService service = new CinemaServiceBean(cinemaDao, movieDao);
-        CinemaService service = context.getBean(CinemaService.class);
-        CinemaService service2 = context.getBean(CinemaService.class);
+        //BookstoreService service = new BookstoreServiceBean(bookstoreDao, bookDao);
+        BookstoreService service = context.getBean(BookstoreService.class);
+        BookstoreService service2 = context.getBean(BookstoreService.class);
 
 
-        List<Cinema> cinemas = service.getAllCinemas();
-        System.out.println(cinemas.size() + " cinemas found:");
-        cinemas.forEach(System.out::println);
+        List<Bookstore> bookstores = service.getAllBookstores();
+        System.out.println(bookstores.size() + " bookstores found:");
+        bookstores.forEach(System.out::println);
 
         String foo = context.getBean(String.class);
         System.out.println("foo string: " + foo);

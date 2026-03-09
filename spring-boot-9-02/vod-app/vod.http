@@ -1,21 +1,21 @@
-### get all cinemas
-GET http://localhost:8080/webapi/cinemas
+### get all bookstores
+GET http://localhost:8080/webapi/bookstores
 
-### get all cinemas with params
-GET http://localhost:8080/webapi/cinemas?phrase=abc
+### get all bookstores with params
+GET http://localhost:8080/webapi/bookstores?phrase=abc
 custom-header: custom-value
 Cookie: some-cookie=some-value
 
-### get cinema by id
-GET http://localhost:8080/webapi/cinemas/1
+### get bookstore by id
+GET http://localhost:8080/webapi/bookstores/1
 Accept: application/xml
 
-### get cinemas playing movie
-GET http://localhost:8080/webapi/movies/1/cinemas
+### get bookstores playing book
+GET http://localhost:8080/webapi/books/1/bookstores
 Accept: application/json
 
-### create new cinema
-POST http://localhost:8080/webapi/cinemas
+### create new bookstore
+POST http://localhost:8080/webapi/bookstores
 Content-Type: application/json
 
 {
@@ -23,17 +23,17 @@ Content-Type: application/json
   "logo": "https://www.kinoteka.pl/img/logo.png"
 }
 
-### get all movies
-GET http://localhost:8080/webapi/movies
+### get all books
+GET http://localhost:8080/webapi/books
 
-### get movie by id
-GET http://localhost:8080/webapi/movies/1
+### get book by id
+GET http://localhost:8080/webapi/books/1
 
-### get movies played in cinema
-GET http://localhost:8080/webapi/cinemas/1/movies
+### get books played in bookstore
+GET http://localhost:8080/webapi/bookstores/1/books
 
-### create new movie
-POST http://localhost:8080/webapi/movies
+### create new book
+POST http://localhost:8080/webapi/books
 Content-Type: application/json
 
 {
