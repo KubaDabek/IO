@@ -14,4 +14,6 @@ public interface CinemaDao {
 
     List<Cinema> findByMovie(Movie m);
 
+    Cinema save(Cinema cinema);
+
 }

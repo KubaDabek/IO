@@ -1,6 +1,7 @@
 package vod.service.impl;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import vod.repository.CinemaDao;
 import vod.repository.DirectorDao;
 import vod.repository.MovieDao;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-@Component
+@Service
 public class MovieServiceBean implements MovieService {
 
     private static final Logger log = Logger.getLogger(MovieService.class.getName());

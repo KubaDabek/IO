@@ -15,4 +15,6 @@ public interface CinemaService {
 
     List<Movie> getMoviesInCinema(Cinema c);
 
+    Cinema addCinema(Cinema cinema);
+
 }

@@ -2,6 +2,7 @@ package vod.service.impl;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import vod.model.Cinema;
 import vod.model.Movie;
 import vod.repository.CinemaDao;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-@Component
+@Service
 @Scope("prototype")
 public class CinemaServiceBean implements CinemaService {
 
@@ -49,6 +50,12 @@ public class CinemaServiceBean implements CinemaService {
     public List<Cinema> getCinemasByMovie(Movie m) {
         log.info("searching cinemas by movie " + m.getId());
         return cinemaDao.findByMovie(m);
+    }
+
+    @Override
+    public Cinema addCinema(Cinema cinema) {
+        log.info("adding new cinema " + cinema);
+        return cinemaDao.save(cinema);
     }
 
 }

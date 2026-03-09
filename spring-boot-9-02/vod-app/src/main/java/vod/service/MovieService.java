@@ -16,7 +16,6 @@ public interface MovieService {
 
     Movie addMovie(Movie m);
 
-
     List<Director> getAllDirectors();
 
     Director getDirectorById(int id);
