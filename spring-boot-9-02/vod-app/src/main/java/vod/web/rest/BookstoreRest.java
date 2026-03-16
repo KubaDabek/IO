@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.LocaleResolver;
 import vod.model.Book;
@@ -29,12 +28,6 @@ public class BookstoreRest {
     private final BookService bookService;
     private final MessageSource messageSource;
     private final LocaleResolver localeResolver;
-    private final BookstoreValidator validator;
-
-    @InitBinder
-    void initBinder(WebDataBinder binder) {
-        binder.addValidators(validator);
-    }
 
     @GetMapping("/bookstores")
     List<Bookstore> getBookstores(
@@ -46,6 +39,11 @@ public class BookstoreRest {
         log.info("phrase param: {}", phrase);
         log.info("custom header param: {}", customHeader);
         log.info("some cookie value: {}", someCookie);
+
+        if (phrase != null && phrase.equals("foo")) {
+            throw new IllegalArgumentException("Foo!");
+        }
+
         List<Bookstore> bookstores = bookstoreService.getAllBookstores();
         log.info("{} bookstores found", bookstores.size());
         return bookstores;

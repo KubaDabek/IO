@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import vod.model.Book;
@@ -58,8 +60,13 @@ public class BookRest {
     }
 
     @PostMapping("/books")
-    ResponseEntity<?> addBook(@RequestBody BookDTO bookDTO) {
+    ResponseEntity<?> addBook(@Validated @RequestBody BookDTO bookDTO, Errors errors) {
         log.info("about to add new book {}", bookDTO);
+
+        if (errors.hasErrors()) {
+            return ResponseEntity.badRequest().build();
+        }
+
         Book book = new Book();
         book.setTitle(bookDTO.getTitle());
         book.setPoster(bookDTO.getPoster());

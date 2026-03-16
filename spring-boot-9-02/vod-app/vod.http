@@ -2,7 +2,7 @@
 GET http://localhost:8080/webapi/bookstores
 
 ### get all bookstores with params
-GET http://localhost:8080/webapi/bookstores?phrase=abc
+GET http://localhost:8080/webapi/bookstores?phrase=foo
 custom-header: custom-value
 Cookie: some-cookie=some-value
 
@@ -40,5 +40,5 @@ Content-Type: application/json
   "title": "IO",
   "poster": "https://www.kinoteka.pl/img/logo.png",
   "rating": 4.5,
-  "directorId": 4
+  "authorId": 4
 }
