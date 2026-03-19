@@ -1,17 +1,29 @@
 package vod.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "author")
 public class Author {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "firstname")
     private String firstName;
+
+    @Column(name = "lastname")
     private String lastName;
+
+    @OneToMany(mappedBy = "author")
     @JsonIgnore
     private List<Book> books = new ArrayList<>();
+
     public Author(int id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;

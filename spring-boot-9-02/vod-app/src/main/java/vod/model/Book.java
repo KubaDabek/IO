@@ -1,17 +1,35 @@
 package vod.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "book")
 public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String title;
-    private String poster;//url
+
+    private String poster;
+
+    private float rating;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id")
     private Author author;
-    private float rating;//rating
+
+    @ManyToMany
+    @JoinTable(
+            name = "book_bookstore",
+            joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "bookstore_id", referencedColumnName = "id")
+    )
     @JsonIgnore
     private List<Bookstore> bookstores = new ArrayList<>();
 
@@ -77,29 +95,6 @@ public class Book {
     public void addBookstore(Bookstore c) {
         this.bookstores.add(c);
     }
-
-
-   /* @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Book movie = (Book) o;
-
-        if (id != movie.id) return false;
-        if (Float.compare(movie.rating, rating) != 0) return false;
-        if (title != null ? !title.equals(movie.title) : movie.title != null) return false;
-        return poster != null ? poster.equals(movie.poster) : movie.poster == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + (poster != null ? poster.hashCode() : 0);
-        result = 31 * result + (rating != +0.0f ? Float.floatToIntBits(rating) : 0);
-        return result;
-    }*/
 
     @Override
     public String toString() {

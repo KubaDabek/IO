@@ -1,3 +1,5 @@
 **/target
 **/*.iml
 **/.idea
+mysql/data/
+spring-boot-9-02/docker-vod/mysql/data/
