@@ -1,5 +1,6 @@
 package vod.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vod.model.Author;
 import vod.model.Book;
@@ -11,21 +12,21 @@ import vod.service.BookService;
 
 import java.util.List;
 import java.util.logging.Logger;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
 
 @Service
+@RequiredArgsConstructor
 public class BookServiceBean implements BookService {
 
     private static final Logger log = Logger.getLogger(BookService.class.getName());
 
-    private AuthorDao authorDao;
-    private BookstoreDao bookstoreDao;
-    private BookDao bookDao;
-
-    public BookServiceBean(AuthorDao authorDao, BookstoreDao bookstoreDao, BookDao bookDao) {
-        this.authorDao = authorDao;
-        this.bookstoreDao = bookstoreDao;
-        this.bookDao = bookDao;
-    }
+    private final AuthorDao authorDao;
+    private final BookstoreDao bookstoreDao;
+    private final BookDao bookDao;
 
     public List<Book> getAllBooks() {
         log.info("searching all books...");
@@ -72,10 +73,15 @@ public class BookServiceBean implements BookService {
         return authorDao.findById(id);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public Book addBook(Book m) {
         log.info("about to add book " + m);
-        return bookDao.add(m);
+        m = bookDao.add(m);
+        if (m.getTitle().equals("Apocalypse Now")) {
+            throw new RuntimeException("not yet!");
+        }
+        return m;
     }
 
     @Override

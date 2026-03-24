@@ -40,5 +40,53 @@ Content-Type: application/json
   "title": "IO",
   "poster": "https://www.kinoteka.pl/img/logo.png",
   "rating": 4.5,
-  "authorId": 4
+  "authorId": 1
+}
+
+### shutdown service
+POST http://localhost:8080/actuator/shutdown
+
+### create new book - brak autoryzacji (oczekiwany 401)
+POST http://localhost:8080/webapi/books
+Content-Type: application/json
+
+{
+  "title": "Test Book",
+  "poster": "https://www.kinoteka.pl/img/logo.png",
+  "rating": 4.5,
+  "authorId": 1
+}
+
+### create new book - zły użytkownik bez roli ADMIN (oczekiwany 403)
+POST http://localhost:8080/webapi/books
+Content-Type: application/json
+Authorization: Basic dbuser2 dbuser2
+
+{
+  "title": "Test Book",
+  "poster": "https://www.kinoteka.pl/img/logo.png",
+  "rating": 4.5,
+  "authorId": 1
+}
+
+### create new book - użytkownik z rolą ADMIN (oczekiwany 201)
+POST http://localhost:8080/webapi/books
+Content-Type: application/json
+Authorization: Basic dbuser1 dbuser1
+
+{
+  "title": "Test Book",
+  "poster": "https://www.kinoteka.pl/img/logo.png",
+  "rating": 4.5,
+  "authorId": 1
+}
+
+### create new book - użytkownik z rolą ADMIN (oczekiwany 400)
+POST http://localhost:8080/webapi/books
+Content-Type: application/json
+Authorization: Basic dbuser1 dbuser1
+
+{
+  "poster": "https://www.kinoteka.pl/img/logo.png",
+  "rating": 4.5
 }

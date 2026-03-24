@@ -1,5 +1,6 @@
 package vod.repository.data;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import vod.model.Author;
@@ -8,16 +9,15 @@ import vod.model.Bookstore;
 import vod.repository.BookDao;
 
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
 
 @Repository
 @Primary
+@RequiredArgsConstructor
 public class DataBookDao implements BookDao {
 
     private final BookRepository repository;
-
-    public DataBookDao(BookRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public List<Book> findAll() {
@@ -39,6 +39,7 @@ public class DataBookDao implements BookDao {
         return repository.findAllByBookstores(c);
     }
 
+    @Transactional(propagation = Propagation.MANDATORY)
     @Override
     public Book add(Book m) {
         return repository.save(m);

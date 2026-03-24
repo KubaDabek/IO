@@ -1,5 +1,6 @@
 package vod.repository.data;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import vod.model.Book;
@@ -10,13 +11,10 @@ import java.util.List;
 
 @Repository
 @Primary
+@RequiredArgsConstructor
 public class DataBookstoreDao implements BookstoreDao {
 
     private final BookstoreRepository repository;
-
-    public DataBookstoreDao(BookstoreRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public List<Bookstore> findAll() {
